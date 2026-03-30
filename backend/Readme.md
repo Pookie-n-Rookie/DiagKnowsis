@@ -38,12 +38,13 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
-**4. Set up Environment Variables*
+*4. Set up Environment Variables*
 Create a .env file in the root directory and add your Groq API key:
 
 Code snippet
 GROQ_API_KEY=your_groq_api_key_here
-5. Run the Application
+
+*5. Run the Application*
 ```Bash
 python main.py
 ```
