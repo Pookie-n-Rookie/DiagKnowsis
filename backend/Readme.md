@@ -59,6 +59,12 @@ python main.py
 
 - POST /api/diagnose - Submit an array of symptoms to get a diagnosis match and AI summary.
 
+- POST /api/auth/signup - Create a new user by sending username and password
+
+- POST /api/auth/login - Login to your account by sending username and password
+
+- GET /api/auth/getUser/{token} - Get user details by sending JWT
+
 ## 📄 API Documentation
 FastAPI automatically generates interactive API documentation. Once the server is running, navigate to:
 
