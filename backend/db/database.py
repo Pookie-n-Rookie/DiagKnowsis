@@ -3,6 +3,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.ext.declarative import declarative_base
 from typing import Annotated
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+DATABASE_URL = os.getenv("AUTH_SECRET")
 
 DATABASE_URL = "mysql+pymysql://user:password@localhost:3306/diagknowsis"
 

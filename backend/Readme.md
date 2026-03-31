@@ -39,12 +39,21 @@ pip install -r requirements.txt
 ```
 
 *4. Set up Environment Variables*
-Create a .env file in the root directory and add your Groq API key:
+Create a .env file in the root directory and add variables from .env.example:
 
-Code snippet
-GROQ_API_KEY=your_groq_api_key_here
+```Bash
+GROQ_API_KEY=""
+AUTH_SECRET=""
+DATABASE_URL="mysql+pymysql://user:password@localhost:3306/diagknowsis"
+```
 
-*5. Run the Application*
+*5. Setup local instance of MySql*
+
+```Bash
+docker compose up -d
+```
+
+*6. Run the Application*
 ```Bash
 python main.py
 ```
