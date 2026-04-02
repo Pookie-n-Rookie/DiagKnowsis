@@ -1,5 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap');
 @import "tailwindcss";
-
 @theme {
   --radius-3xl: 24px;
   --radius-4xl: 32px;
@@ -31,13 +31,13 @@ html {
 body {
   background-color: #E0E5EC;
   color: #3D4852;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: 'DM Sans', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
 .font-display {
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
 /* Shadow utilities */

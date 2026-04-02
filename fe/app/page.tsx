@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, type ReactNode, type CSSProperties } from "react";
+import { useEffect, useState, type ReactNode, type CSSProperties } from "react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -98,6 +98,12 @@ const IconBell = () => (
   </svg>
 );
 
+const IconActivity = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+  </svg>
+);
+
 const IconCpu = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="4" y="4" width="16" height="16" rx="2" />
@@ -111,11 +117,11 @@ const IconCpu = () => (
 
 // ─── Navbar ───────────────────────────────────────────────────────────────────
 
-function Navbar() {
+function Navbar({ isLoggedIn, onLogout }: { isLoggedIn: boolean; onLogout: () => void }) {
   const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();
 
-  const navLinks = ["Features", "How It Works", "Contact"] as const;
+  const navLinks = ["Features", "How It Works", "Get Started"] as const;
   return (
     <nav
       className="sticky top-0 z-50"
@@ -133,13 +139,15 @@ function Navbar() {
           className="flex items-center gap-2.5 focus:outline-none focus:ring-2 focus:ring-[#6C63FF] rounded-xl"
         >
           <div
-            className="w-9 h-9 rounded-xl flex items-center justify-center"
             style={{
-              background: "linear-gradient(135deg, #6C63FF, #8B84FF)",
-              boxShadow: "5px 5px 10px rgb(163,177,198,0.6), -5px -5px 10px rgba(255,255,255,0.5)",
+              width: 40, height: 40, borderRadius: 12,
+              background: 'linear-gradient(135deg, #6C63FF, #8B84FF)',
+              boxShadow: '4px 4px 8px rgb(163,177,198,0.6), -4px -4px 8px rgba(255,255,255,0.5)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: 'white',
             }}
           >
-            <span className="text-white font-bold text-sm font-display">DKS</span>
+            <IconActivity />
           </div>
           <span className="font-display font-bold text-lg text-[#3D4852]">DiagKnowSis</span>
         </a>
@@ -159,14 +167,23 @@ function Navbar() {
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
-          <a
-            href="#contact"
-            className="btn-secondary px-5 py-2.5 rounded-2xl text-sm font-medium text-[#3D4852] focus:outline-none focus:ring-2 focus:ring-[#6C63FF]"
-          >
-            Sign in
-          </a>
+          {isLoggedIn ? (
+            <button
+              onClick={onLogout}
+              className="btn-secondary px-5 py-2.5 rounded-2xl text-sm font-medium text-[#3D4852] focus:outline-none focus:ring-2 focus:ring-[#6C63FF]"
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              onClick={() => router.push("/login")}
+              className="btn-secondary px-5 py-2.5 rounded-2xl text-sm font-medium text-[#3D4852] focus:outline-none focus:ring-2 focus:ring-[#6C63FF]"
+            >
+              Login
+            </button>
+          )}
           <button
-            onClick={() => router.push("/analyze")}
+            onClick={() => router.push(isLoggedIn ? "/analyze" : "/login")}
             className="btn-primary px-5 py-2.5 rounded-2xl text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-[#6C63FF]"
           >
             Get Started
@@ -201,13 +218,15 @@ function Navbar() {
               {item}
             </a>
           ))}
-          <a
-            href="#contact"
-            onClick={() => setOpen(false)}
-            className="btn-primary mt-2 py-3 rounded-2xl text-center text-sm font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[#6C63FF]"
+          <button
+            onClick={() => {
+              setOpen(false);
+              router.push(isLoggedIn ? "/analyze" : "/login");
+            }}
+            className="btn-primary mt-2 py-3 rounded-2xl text-center text-sm font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[#6C63FF] w-full"
           >
             Get Started
-          </a>
+          </button>
         </div>
       </div>
     </nav>
@@ -265,13 +284,19 @@ function HeroVisual() {
         style={{
           background: "linear-gradient(135deg, #6C63FF, #8B84FF)",
           boxShadow: "12px 12px 20px rgb(163,177,198,0.7), -12px -12px 20px rgba(255,255,255,0.6)",
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}
       >
         <div
-          className="w-20 h-20 rounded-full flex items-center justify-center"
-          style={{ boxShadow: "inset 6px 6px 10px rgba(0,0,0,0.15), inset -6px -6px 10px rgba(255,255,255,0.1)" }}
+          style={{
+            width: 40, height: 40, borderRadius: 100,
+            background: 'linear-gradient(135deg, #6C63FF, #8B84FF)',
+            border: '3px  solid rgba(255, 255, 255, 0.3)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: 'white',
+          }}
         >
-          <span className="font-display font-extrabold text-2xl text-white">DKS</span>
+          <IconActivity />
         </div>
       </div>
 
@@ -301,7 +326,7 @@ function HeroVisual() {
   );
 }
 
-function Hero() {
+function Hero({ isLoggedIn }: { isLoggedIn: boolean }) {
   const router = useRouter();
   const avatarColors = ["#6C63FF", "#38B2AC", "#8B84FF", "#5BBFBA"] as const;
   const avatarInitials = ["A", "J", "M", "R"] as const;
@@ -347,7 +372,7 @@ function Hero() {
           style={{ opacity: 0, animationFillMode: "forwards" } as CSSProperties}
         >
           <button
-            onClick={() => router.push("/analyze")}
+            onClick={() => router.push(isLoggedIn ? "/analyze" : "/login")}
             className="btn-primary flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-base font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[#6C63FF] focus:ring-offset-2 focus:ring-offset-[#E0E5EC]"
           >
             Get Started <IconArrowRight />
@@ -591,9 +616,10 @@ function HowItWorks() {
 
 // ─── Contact / CTA ────────────────────────────────────────────────────────────
 
-function Contact() {
+function Contact({ isLoggedIn, onLogout }: { isLoggedIn: boolean; onLogout: () => void }) {
   const [email, setEmail] = useState<string>("");
   const [sent, setSent] = useState<boolean>(false);
+  const router = useRouter();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -603,81 +629,71 @@ function Contact() {
   }
 
   return (
-    <section id="contact" className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 pb-20 lg:pb-24">
-      <div
-        className="rounded-[28px] p-7 sm:p-10 md:p-14 lg:p-16 text-center relative overflow-hidden"
-        style={{ boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px rgba(255,255,255,0.5)" }}
-      >
-        {/* Decorative rings */}
-        <div
-          className="absolute -top-24 -right-24 w-80 h-80 rounded-full opacity-30"
-          style={{ boxShadow: "inset 10px 10px 20px rgb(163,177,198,0.7), inset -10px -10px 20px rgba(255,255,255,0.6)" }}
-        />
-        <div
-          className="absolute -bottom-20 -left-20 w-64 h-64 rounded-full opacity-20"
-          style={{ boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px rgba(255,255,255,0.5)" }}
-        />
+    <section id="get-started" className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 pb-20 lg:pb-24">
+  <div
+    className="bg-[#E0E5EC] rounded-[28px] p-7 sm:p-10 md:p-14 lg:p-16 text-center relative overflow-hidden"
+    style={{ boxShadow: "9px 9px 16px rgba(163,177,198,0.6), -9px -9px 16px rgba(255,255,255,0.5)" }}
+  >
+    {/* Decorative rings */}
+    <div
+      className="absolute -top-24 -right-24 w-80 h-80 rounded-full opacity-30 pointer-events-none"
+      style={{ boxShadow: "inset 10px 10px 20px rgba(163,177,198,0.7), inset -10px -10px 20px rgba(255,255,255,0.6)" }}
+    />
+    <div
+      className="absolute -bottom-20 -left-20 w-64 h-64 rounded-full opacity-20 pointer-events-none"
+      style={{ boxShadow: "9px 9px 16px rgba(163,177,198,0.6), -9px -9px 16px rgba(255,255,255,0.5)" }}
+    />
 
-        <div className="relative z-10 max-w-2xl mx-auto">
-          <p className="text-xs font-bold uppercase tracking-widest text-[#6C63FF] mb-4">Get started</p>
-          <h2 className="font-display font-extrabold text-4xl md:text-5xl text-[#3D4852] tracking-tight mb-4">
-            Ready to explore likely diagnoses?
-          </h2>
-          <p className="text-[#6B7280] text-lg mb-10">
-            Start using DiagKnowSis to turn symptom data into ranked disease matches and clear, non-alarmist AI guidance.
-          </p>
+    <div className="relative z-10 max-w-2xl mx-auto">
+      <p className="text-xs font-bold uppercase tracking-widest text-[#6C63FF] mb-4">
+        Get started
+      </p>
+      <h2 className="font-display font-extrabold text-4xl md:text-5xl text-[#3D4852] tracking-tight mb-4">
+        Ready to explore likely diagnoses?
+      </h2>
+      <p className="text-[#6B7280] text-lg mb-10">
+        Start using DiagKnowSis to turn symptom data into ranked disease matches
+        and clear, non-alarmist AI guidance.
+      </p>
 
-          {sent ? (
-            <div
-              className="inline-flex items-center gap-3 px-8 py-5 rounded-2xl"
-              style={{ boxShadow: "inset 6px 6px 10px rgb(163,177,198,0.6), inset -6px -6px 10px rgba(255,255,255,0.5)" }}
-            >
-              <span style={{ color: "#38B2AC" }}>
-                <IconCheck />
-              </span>
-              <span className="font-semibold text-[#3D4852]">
-                You&apos;re all set. Let&apos;s get started.
-              </span>
-            </div>
-          ) : (
-            <form
-              onSubmit={handleSubmit}
-              className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
-            >
-              <div className="flex-1">
-                <label htmlFor="email-input" className="sr-only">
-                  Email address
-                </label>
-                <input
-                  id="email-input"
-                  type="email"
-                  required
-                  placeholder="you@company.com"
-                  value={email}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-                  className="neu-input w-full px-5 py-4 text-base"
-                />
-              </div>
-              <button
-                type="submit"
-                className="btn-primary px-7 py-4 rounded-2xl text-base font-semibold text-white whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-[#6C63FF] focus:ring-offset-2 focus:ring-offset-[#E0E5EC]"
-              >
-                Get Started
-              </button>
-            </form>
-          )}
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <button
+          type="button"
+          onClick={isLoggedIn ? onLogout : () => router.push("/login")}
+          className="w-full sm:w-auto px-7 py-4 rounded-2xl text-sm font-medium
+                     bg-[#E0E5EC] text-[#6B7280] hover:text-[#374151]
+                     shadow-[4px_4px_8px_#b8bec7,-4px_-4px_8px_#ffffff]
+                     hover:shadow-[2px_2px_4px_#b8bec7,-2px_-2px_4px_#ffffff]
+                     active:shadow-[inset_3px_3px_6px_#b8bec7,inset_-3px_-3px_6px_#ffffff]
+                     transition-all duration-150 ease-out whitespace-nowrap"
+        >
+          {isLoggedIn ? "Logout" : "Login"}
+        </button>
 
-          <p className="text-xs text-[#6B7280] mt-5">No spam. Unsubscribe anytime.</p>
-        </div>
+        <button
+          type="submit"
+          className="w-full sm:w-auto px-7 py-4 rounded-2xl text-sm font-semibold text-white
+                     bg-[#6C63FF] hover:bg-[#5B52EE] active:bg-[#4A42DD]
+                     shadow-[0_4px_14px_rgba(108,99,255,0.4),4px_4px_8px_#b8bec7,-2px_-2px_6px_rgba(255,255,255,0.6)]
+                     hover:shadow-[0_6px_20px_rgba(108,99,255,0.5)]
+                     active:shadow-[0_2px_8px_rgba(108,99,255,0.3)]
+                     focus:outline-none focus:ring-2 focus:ring-[#6C63FF]
+                     focus:ring-offset-2 focus:ring-offset-[#E0E5EC]
+                     transition-all duration-150 ease-out whitespace-nowrap"
+        >
+          Get Started
+        </button>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
   );
 }
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
 
 function Footer() {
-  const legalLinks = ["Privacy", "Terms", "Security"] as const;
+  const legalLinks = ["Github"] as const;
 
   return (
     <footer className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 pb-10 sm:pb-12">
@@ -703,7 +719,7 @@ function Footer() {
           {legalLinks.map((item) => (
             <a
               key={item}
-              href="#"
+              href="https://github.com/Pookie-n-Rookie/DiagKnowsis"
               className="hover:text-[#3D4852] transition-colors focus:outline-none focus:ring-2 focus:ring-[#6C63FF] rounded"
             >
               {item}
@@ -718,15 +734,26 @@ function Footer() {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Home() {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsLoggedIn(Boolean(localStorage.getItem("token")));
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+  };
+
   return (
     <>
-      <Navbar />
+      <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
       <main>
-        <Hero />
+        <Hero isLoggedIn={isLoggedIn} />
         <StatsBar />
         <Features />
         <HowItWorks />
-        <Contact />
+        <Contact isLoggedIn={isLoggedIn} onLogout={handleLogout} />
       </main>
       <Footer />
     </>

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, status, Depends
 from passlib.context import CryptContext
-from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
 from pydantic import BaseModel
 from db.database import db_dependency
@@ -14,11 +14,11 @@ load_dotenv()
 
 router = APIRouter()
 
-AUTH_SECRET = os.getenv("AUTH_SECRET")
+AUTH_SECRET = os.getenv("AUTH_SECRET") or "change-me-in-production"
 ALGORITHM = "HS256"
 
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
-oauth2_bearer = OAuth2PasswordBearer(tokenUrl='auth/token')
+oauth2_bearer = OAuth2PasswordBearer(tokenUrl='api/auth/login')
 
 class CreateUserRequest(BaseModel):
     username: str
@@ -27,6 +27,10 @@ class CreateUserRequest(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str
 
 @router.post("/signup", status_code=status.HTTP_201_CREATED)
 async def signup(db: db_dependency, create_user_request: CreateUserRequest):
@@ -40,11 +44,11 @@ async def signup(db: db_dependency, create_user_request: CreateUserRequest):
     db.commit()
     
 @router.post("/login", response_model=Token, status_code=status.HTTP_200_OK)
-async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: db_dependency):
-    user = db.query(User).filter(User.username == form_data.username).first()
+async def login(login_request: LoginRequest, db: db_dependency):
+    user = db.query(User).filter(User.username == login_request.username).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Username not found")
-    if not bcrypt_context.verify(form_data.password, user.password):
+    if not bcrypt_context.verify(login_request.password, user.password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect password")
     
     token = create_access_token(user.username, user.id, timedelta(minutes=20))

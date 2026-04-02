@@ -8,9 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("AUTH_SECRET")
-
-DATABASE_URL = "mysql+pymysql://user:password@localhost:3306/diagknowsis"
+DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://user:password@localhost:3306/diagknowsis")
 
 engine = create_engine(DATABASE_URL)
 
