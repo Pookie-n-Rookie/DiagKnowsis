@@ -1,7 +1,3 @@
-# Web Applications Laboratory Project
-
-
-
 # DiagKnowSis
 ### Medical Diagnosis Web System
 
@@ -9,7 +5,7 @@
 [![AI-Assisted](https://img.shields.io/badge/AI--Assisted-Symptom%20Insights-7c3aed?style=for-the-badge&logo=anthropic&logoColor=white)](https://groq.com/)
 [![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![LLaMA 3 · Groq](https://img.shields.io/badge/LLaMA%203%20%C2%B7%20Groq-f97316?style=for-the-badge)](https://groq.com/)
+[![LLaMA 3 · Groq](https://img.shields.io/badge/LLaMA%203%20%C2%B7%20Groq-f97316?style=for-the-badge)](https://console.groq.com/playground?model=llama-3.3-70b-versatile)
 [![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![Aiven](https://img.shields.io/badge/Aiven-FF3750?style=for-the-badge&logo=aiven&logoColor=white)](https://aiven.io/)
 [![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
