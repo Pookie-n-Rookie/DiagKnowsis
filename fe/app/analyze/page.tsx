@@ -97,7 +97,8 @@ export default function AnalyzePage() {
   useEffect(() => {
     async function fetchSymptoms() {
       try {
-        const res = await fetch('http://localhost:8000/api/symptoms/list');
+        const END_POINT = `${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000"}/api/symptoms/list`;
+        const res = await fetch(END_POINT);
         const data = await res.json();
         setAllSymptoms(data.symptoms);
       } catch (err) {
@@ -119,7 +120,8 @@ export default function AnalyzePage() {
     setError(null);
     setDiagnosis(null);
     try {
-      const res = await fetch('http://localhost:8000/api/diagnose', {
+      const END_POINT = `${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000"}/api/diagnose`;
+      const res = await fetch(END_POINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ symptoms: selectedSymptoms, use_ai: true }),
