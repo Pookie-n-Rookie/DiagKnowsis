@@ -34,7 +34,8 @@ export default function SignupPage() {
         toast.success("Signup successful! Please login.");
         router.push("/login");
       } else {
-        toast.error("Signup failed. Please try again.");
+        const res = await response.json();
+        toast.error(res.detail ?? "Signup failed. Please try again.");
       }
     } catch (err) {
       console.error("Signup failed:", err);
