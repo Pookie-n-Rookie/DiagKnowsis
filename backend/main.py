@@ -5,6 +5,7 @@ from routes.health import router as health_router
 from routes.auth import router as auth_router
 from db.database import engine
 import db.models as models
+import os
 
 app = FastAPI(
     title="DiagKnowsis - Medical Diagnosis API",
@@ -14,9 +15,10 @@ app = FastAPI(
 models.Base.metadata.create_all(bind=engine)
 
 # Allow Next.js frontend
+frontend_url = os.getenv("FRONTEND_URL", "http://localhost:3000")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["http://localhost:3000", ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
