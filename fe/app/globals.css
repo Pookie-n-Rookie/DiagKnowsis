@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap');
+@import "tailwindcss";
+@theme {
+  --radius-3xl: 24px;
+  --radius-4xl: 32px;
+
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-float-slow: floatSlow 4s ease-in-out infinite;
+  --animate-fade-in-up: fadeInUp 600ms ease-out forwards;
+  --animate-pulse-ring: pulseRing 4s ease-in-out infinite;
+}
+:root {
+  --neu-bg: #E0E5EC;
+  --neu-fg: #3D4852;
+  --neu-muted: #6B7280;
+  --neu-accent: #6C63FF;
+  --neu-accent-light: #8B84FF;
+  --neu-accent-secondary: #38B2AC;
+  --shadow-light: rgba(255, 255, 255, 0.5);
+  --shadow-dark: rgb(163, 177, 198, 0.6);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #E0E5EC;
+  color: #3D4852;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.font-display {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+/* Shadow utilities */
+.neu-extruded {
+  box-shadow: 9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px rgba(255,255,255,0.5);
+}
+.neu-extruded-hover {
+  box-shadow: 12px 12px 20px rgb(163,177,198,0.7), -12px -12px 20px rgba(255,255,255,0.6);
+}
+.neu-extruded-sm {
+  box-shadow: 5px 5px 10px rgb(163,177,198,0.6), -5px -5px 10px rgba(255,255,255,0.5);
+}
+.neu-inset {
+  box-shadow: inset 6px 6px 10px rgb(163,177,198,0.6), inset -6px -6px 10px rgba(255,255,255,0.5);
+}
+.neu-inset-deep {
+  box-shadow: inset 10px 10px 20px rgb(163,177,198,0.7), inset -10px -10px 20px rgba(255,255,255,0.6);
+}
+.neu-inset-sm {
+  box-shadow: inset 3px 3px 6px rgb(163,177,198,0.6), inset -3px -3px 6px rgba(255,255,255,0.5);
+}
+
+/* Button states */
+.btn-primary {
+  background: linear-gradient(135deg, #6C63FF, #8B84FF);
+  box-shadow: 9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px rgba(255,255,255,0.5);
+  transition: all 300ms ease-out;
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 12px 12px 20px rgb(163,177,198,0.7), -12px -12px 20px rgba(255,255,255,0.6);
+}
+.btn-primary:active {
+  transform: translateY(0.5px);
+  box-shadow: inset 4px 4px 8px rgba(0,0,0,0.15), inset -4px -4px 8px rgba(255,255,255,0.1);
+}
+
+.btn-secondary {
+  background: #E0E5EC;
+  box-shadow: 9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px rgba(255,255,255,0.5);
+  transition: all 300ms ease-out;
+}
+.btn-secondary:hover {
+  transform: translateY(-1px);
+  box-shadow: 12px 12px 20px rgb(163,177,198,0.7), -12px -12px 20px rgba(255,255,255,0.6);
+}
+.btn-secondary:active {
+  transform: translateY(0.5px);
+  box-shadow: inset 3px 3px 6px rgb(163,177,198,0.6), inset -3px -3px 6px rgba(255,255,255,0.5);
+}
+
+/* Card hover */
+.neu-card {
+  background: #E0E5EC;
+  border-radius: 32px;
+  box-shadow: 9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px rgba(255,255,255,0.5);
+  transition: all 300ms ease-out;
+}
+.neu-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 12px 12px 20px rgb(163,177,198,0.7), -12px -12px 20px rgba(255,255,255,0.6);
+}
+
+/* Input styles */
+.neu-input {
+  background: #E0E5EC;
+  border: none;
+  border-radius: 16px;
+  box-shadow: inset 6px 6px 10px rgb(163,177,198,0.6), inset -6px -6px 10px rgba(255,255,255,0.5);
+  outline: none;
+  transition: box-shadow 300ms ease-out;
+  color: #3D4852;
+}
+.neu-input::placeholder {
+  color: #A0AEC0;
+}
+.neu-input:focus {
+  box-shadow: inset 10px 10px 20px rgb(163,177,198,0.7), inset -10px -10px 20px rgba(255,255,255,0.6);
+  ring: 2px solid #6C63FF;
+  outline: 2px solid #6C63FF;
+  outline-offset: 2px;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(3deg); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseRing {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.04); opacity: 1; }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+.animate-float-slow {
+  animation: floatSlow 4s ease-in-out infinite;
+}
+.animate-fade-in-up {
+  animation: fadeInUp 600ms ease-out forwards;
+}
+.animate-pulse-ring {
+  animation: pulseRing 4s ease-in-out infinite;
+}
+
+/* Stagger delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Mobile menu transition */
+.mobile-menu-enter {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 300ms ease-out;
+}
+.mobile-menu-open {
+  max-height: 400px;
+}
+
+/* Accent text */
+.text-accent {
+  color: #6C63FF;
+}
+.text-accent-secondary {
+  color: #38B2AC;
+}
+
+@media (max-width: 640px) {
+  .neu-card {
+    border-radius: 24px;
+  }
+}
